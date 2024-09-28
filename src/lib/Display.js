@@ -28,6 +28,7 @@ class Display {
         this.checkOK = this.checkOK.bind(this);
         this.sendSync = this.sendSync.bind(this);
         this.handshake = this.handshake.bind(this);
+        this.sleep = this.sleep.bind(this);
         this.setColor = this.setColor.bind(this);
         this.clear = this.clear.bind(this);
         this.update = this.update.bind(this);
@@ -126,6 +127,21 @@ class Display {
                 .delay(HANDSHAKE_DELAY)
                 .then(() => this.sendSync(cmdHandshake))
                 .then(this.checkOK);
+    }
+
+    sleep() {
+      const cmdSleep = [
+          frames.FRAME_B,
+          0x00,
+          0x09,
+          cmds.CMD_STOPMODE,
+          0xCC,
+          0x33,
+          0xC3,
+          0x3C,
+          0xAC
+      ];
+      return this.sendSync(cmdSleep).then(this.checkOK);
     }
 
     setColor(colorFg, colorBg) {
